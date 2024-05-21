@@ -44,7 +44,7 @@ export default function AdvanceSetting() {
                 value={isEnabled}
               />
             </View>
-            <View className="flex flex-row justify-between">
+            <View className="flex flex-row mr-3 justify-between">
               <Text className="text-gray-800 p-2 text-lg">No ball run</Text>
               <TextInput
                 keyboardType="text"
@@ -77,7 +77,7 @@ export default function AdvanceSetting() {
                 value={isEnabled}
               />
             </View>
-            <View className="flex flex-row justify-between">
+            <View className="flex flex-row mr-3 justify-between">
               <Text className="text-gray-800 p-2 text-lg">Wide ball run</Text>
               <TextInput
                 keyboardType="text"
