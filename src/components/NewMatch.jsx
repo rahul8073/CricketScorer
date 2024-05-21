@@ -1,9 +1,11 @@
 import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
 import React, {useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NewMatch() {
   const [Toss, setToss] = useState(1);
   const [Bowl, setBowl] = useState(1);
+  const navigation=useNavigation();
   return (
     <View>
       {/* teams */}
@@ -99,7 +101,7 @@ export default function NewMatch() {
       {/* buttons */}
   <View className='mx-5 my-2'>
     <View className='flex flex-row  justify-between'>
-        <TouchableOpacity className=' p-2 rounded-lg px-5 '>
+        <TouchableOpacity className=' p-2 rounded-lg px-5' onPress={()=>navigation.navigate('AdvanceSetting')}>
             <Text className='text-xl '>Advance Setting</Text>
         </TouchableOpacity>
         <TouchableOpacity className='bg-green-600 p-2 rounded-lg px-5 '>
