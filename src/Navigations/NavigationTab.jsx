@@ -9,6 +9,7 @@ import cricketbat from '../assets/cricketbat.png';
 import group from '../assets/group.png';
 import history from '../assets/history.png';
 import Navigations from './Navigations';
+import HomeScreen from '../screens/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 export default function NavigationTab() {
@@ -38,7 +39,7 @@ export default function NavigationTab() {
       <Tab.Screen
         name="New Match"
         options={{headerShown: false}}
-        component={Navigations}
+        component={HomeScreen}
       />
       <Tab.Screen
         name="Teams"

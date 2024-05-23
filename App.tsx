@@ -11,7 +11,7 @@ export default function App() {
     <>
     {/* <Header/> */}
     <NavigationContainer>
-      <NavigationTab />
+      <Navigations />
     </NavigationContainer>
     </>
   );

@@ -104,7 +104,7 @@ export default function NewMatch() {
         <TouchableOpacity className=' p-2 rounded-lg px-5' onPress={()=>navigation.navigate('AdvanceSetting')}>
             <Text className='text-xl '>Advance Setting</Text>
         </TouchableOpacity>
-        <TouchableOpacity className='bg-green-600 p-2 rounded-lg px-5 '>
+        <TouchableOpacity onPress={()=>navigation.navigate('selectplayer')} className='bg-green-600 p-2 rounded-lg px-5 '>
             <Text className='text-white text-lg'>Start Match</Text>
         </TouchableOpacity>
     </View>
