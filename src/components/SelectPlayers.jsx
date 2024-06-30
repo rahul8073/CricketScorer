@@ -1,10 +1,16 @@
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 export default function SelectPlayers() {
     const navigation = useNavigation();
+    const[striker,setStriker]=useState('')
+    const[nonstriker,setNonStriker]=useState('')
+    const[bowler,setBowler]=useState('')
+
+   
   return (
     <View>
       <View>
@@ -26,6 +32,8 @@ export default function SelectPlayers() {
               keyboardType="text"
               placeholder="Player name"
               className="border-b p-0 "
+              value={striker}
+              onChangeText={setStriker}
             />
           </View>
         </View>
@@ -36,7 +44,10 @@ export default function SelectPlayers() {
             <TextInput
               keyboardType="text"
               placeholder="Player name"
-              className="border-b p-0 "/>
+              className="border-b p-0 "
+              value={nonstriker}
+              onChangeText={setNonStriker}
+              />
           </View>
         </View>
         {/*Opening bowler */}
@@ -46,12 +57,15 @@ export default function SelectPlayers() {
             <TextInput
               keyboardType="text"
               placeholder="Player name"
-              className="border-b p-0"/>
+              className="border-b p-0"
+              value={bowler}
+              onChangeText={setBowler}
+              />
           </View>
         </View>
       </View>
       <View className=" mt-9">
-        <TouchableOpacity onPress={()=>navigation.navigate('matchstart')}  className="grid bg-green-800 py-3 mx-2 rounded-xl">
+        <TouchableOpacity onPress={()=>navigation.navigate('matchstart',{striker,nonstriker,bowler})}  className="grid bg-green-800 py-3 mx-2 rounded-xl">
           <Text className="text-white text-center text-lg">Start Match</Text>
         </TouchableOpacity>
       </View>

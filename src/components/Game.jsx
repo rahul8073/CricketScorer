@@ -1,10 +1,21 @@
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, { useState } from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
 
 export default function Game() {
   const navigation = useNavigation();
+  const [Bowl, setBowl] = useState(null);
+  const [wicket,setWicket]=useState(false)
+  const [wide,setWide]=useState(false)
+  const [NoBall,setNoball]=useState(false)
+  const [bayes,setByes]=useState(false)
+  const [legbayes,setLegByes]=useState(false)
+  const route = useRoute();
+  const { striker, nonstriker, bowler } = route.params;
+  const Data=useSelector(state=>state.MatchReducer);
+  console.log(Data?.data,striker,nonstriker,bowler,"jjjjjjjjj");
   return (
     <View>
       {/* heading */}
@@ -16,8 +27,8 @@ export default function Game() {
             <Icon name="arrow-left" size={14} color="white" />
           </TouchableOpacity>
           <View className="flex flex-row">
-            <Text className="text-3xl text-white">
-              R <Text className="text-[25px] text-white text">vs</Text> S
+            <Text className="text-3xl text-white">{Data?.data.hostTeam}
+               <Text className="text-[25px] text-white text"> vs</Text> {Data?.data.visitorTeam}
             </Text>
             {/* <Text className="text-sm text-white text">vs</Text> */}
           </View>
@@ -55,7 +66,7 @@ export default function Game() {
         {/* batsman1 */}
         <View className="flex px-2  flex-row justify-between ">
           <Text className="bg-white text-lg w-[40%] whitespace-nowrap text-green-600">
-            Player 1
+            {striker}
           </Text>
           <Text className="text-sm w-[12%]">500</Text>
           <Text className="text-sm w-[12%]">3000</Text>
@@ -67,7 +78,7 @@ export default function Game() {
         {/* batsman2 */}
         <View className="flex px-2  flex-row justify-between ">
           <Text className="bg-white text-lg w-[40%] whitespace-nowrap text-green-600">
-            Player 2
+           {nonstriker}
           </Text>
           <Text className="text-sm w-[12%]">500</Text>
           <Text className="text-sm w-[12%]">3000</Text>
@@ -91,7 +102,7 @@ export default function Game() {
         {/* Bowler */}
         <View className="flex px-2  flex-row justify-between ">
           <Text className="bg-white text-lg w-[40%] whitespace-nowrap text-green-600">
-            Player 2
+          {bowler}
           </Text>
           <Text className="text-sm w-[12%]">0.0</Text>
           <Text className="text-sm w-[12%]">0</Text>
@@ -115,6 +126,145 @@ export default function Game() {
             </View>
           </View>
         </ScrollView>
+      </View>
+      {/* scoring option */}
+      <View className=" p-2 mx-3 my-1 bg-white rounded-lg">
+      <View className="flex flex-row justify-between">
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center">
+                  <Text
+                    className={`h-4 w-4  border   ${
+                      wide && 'bg-green-800'
+                    }`}></Text>
+                </View>
+                <Text>Wide</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setNoball(!NoBall)}>
+              <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center">
+                  <Text
+                    className={`h-4 w-4  border   ${
+                      NoBall && 'bg-green-800'
+                    }`}></Text>
+                </View>
+                <Text>No Ball</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setByes(!bayes)}>
+              <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center">
+                  <Text
+                    className={`h-4 w-4  border   ${
+                      bayes && 'bg-green-800'
+                    }`}></Text>
+                </View>
+                <Text>Byes</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setLegByes(!legbayes)}>
+              <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center">
+                  <Text
+                    className={`h-4 w-4  border   ${
+                      legbayes && 'bg-green-800'
+                    }`}></Text>
+                </View>
+                <Text>LegByes</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View className="flex flex-row justify-between my-3">
+            <TouchableOpacity onPress={() => setWicket(!wicket)}>
+              <View className="flex flex-row gap-1">
+                <View className="flex flex-row items-center">
+                  <Text
+                    className={`h-4 w-4  border   ${
+                      wicket && 'bg-green-800'
+                    }`}></Text>
+                </View>
+                <Text>Wicket</Text>
+              </View>
+            </TouchableOpacity>
+            <View className="flex flex-row gap-x-2 text-white">
+            <TouchableOpacity onPress={() => setBowl(0)} className="bg-green-700 p-2 rounded-lg">
+                <Text className="text-center text-white">Retire</Text> 
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setBowl(0)} className="bg-green-700 p-2 rounded-lg">
+                <Text className="text-center text-white">Swap Batsman</Text> 
+            </TouchableOpacity>
+            </View>
+
+          </View>
+      </View>
+      {/* run set */}
+      <View className="flex flex-row gap-2 p-2 mx-3 my-1 bg-white rounded-lg">
+      <View className="  ">
+            <TouchableOpacity onPress={() => setBowl(0)} className="bg-green-700 p-2 mb-2 rounded-lg">
+                <Text className="text-center text-white">Retire</Text> 
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setBowl(0)} className="bg-green-700 p-2 mb-2 rounded-lg">
+                <Text className="text-center text-white">Swap Batsman</Text> 
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setBowl(0)} className="bg-green-700 p-2 mb-2 rounded-lg">
+                <Text className="text-center text-white">Swap Batsman</Text> 
+            </TouchableOpacity>
+            </View>
+      <View className="flex flex-row gap-x-4">
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">0</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">1</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">2</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">3</Text>
+              </View>
+            </TouchableOpacity>
+           
+          </View>
+      <View className="flex flex-row gap-x-4">
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">0</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">1</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">2</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setWide(!wide)}>
+              <View className="w-8 h-8 border rounded-full">
+                
+                <Text className="text-lg text-center  rounded-full">3</Text>
+              </View>
+            </TouchableOpacity>
+           
+          </View>
       </View>
     </View>
   );

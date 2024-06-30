@@ -1,83 +1,111 @@
-import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { startMatch } from '../Redux/action/Game';
 
 export default function NewMatch() {
-  const [Toss, setToss] = useState(1);
-  const [Bowl, setBowl] = useState(1);
-  const navigation=useNavigation();
+  const [hostTeam, setHostTeam] = useState('');
+  const [visitorTeam, setVisitorTeam] = useState('');
+  const [toss, setToss] = useState("");
+  const [opted, setOpted] = useState("");
+  const [overs, setOvers] = useState('');
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleStartMatch = () => {
+    const matchData = {
+      hostTeam,
+      visitorTeam,
+      toss,
+      opted,
+      overs,
+    };
+    dispatch(startMatch(matchData));
+    navigation.navigate('selectplayer');
+  };
+
   return (
     <View>
-      {/* teams */}
+      {/* Teams */}
       <View>
         <Text className="text-green-800 p-2 text-xl">Teams</Text>
         <View className="bg-white mx-2 p-2 rounded-lg">
           <TextInput
-            keyboardType="text"
+            keyboardType="default"
             placeholder="Host Team"
-            className="border-b p-0 my-2"></TextInput>
+            value={hostTeam}
+            onChangeText={setHostTeam}
+            className="border-b p-0 my-2"
+          />
           <TextInput
-            keyboardType="text"
+            keyboardType="default"
             placeholder="Visitor Team"
-            className="border-b p-0 my-2"></TextInput>
+            value={visitorTeam}
+            onChangeText={setVisitorTeam}
+            className="border-b p-0 my-2"
+          />
         </View>
       </View>
 
-      {/* toss */}
+      {/* Toss */}
       <View>
         <Text className="text-green-800 p-2 text-xl">Toss won by?</Text>
         <View className="bg-white mx-2 p-2 rounded-lg ">
           <View className="flex flex-row gap-5">
-            <TouchableOpacity onPress={() => setToss(1)}>
+            <TouchableOpacity onPress={() => setToss(hostTeam)}>
               <View className="flex flex-row gap-1">
                 <View className="flex flex-row items-center">
-                  <Text
-                    className={`h-4 w-4  border rounded-full  ${
-                      Toss == 1 && 'bg-green-800'
-                    }`}></Text>
+                  <View
+                    className={`h-4 w-4 border rounded-full ${
+                      toss === hostTeam ? 'bg-green-800' : ''
+                    }`}
+                  ></View>
                 </View>
-                <Text>Host Team</Text>
+                <Text>{hostTeam || "Host Team"}</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setToss(2)}>
+            <TouchableOpacity onPress={() => setToss(visitorTeam)}>
               <View className="flex flex-row gap-1">
                 <View className="flex flex-row items-center">
-                  <Text
-                    className={`h-4 w-4  border rounded-full  ${
-                      Toss == 2 && 'bg-green-800'
-                    }`}></Text>
+                  <View
+                    className={`h-4 w-4 border rounded-full ${
+                      toss === visitorTeam ? 'bg-green-800' : ''
+                    }`}
+                  ></View>
                 </View>
-                <Text>Visitor Team</Text>
+                <Text>{visitorTeam || 'Visitor Team'}</Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
       </View>
 
-
-      {/* choose bat or bowl */}
+      {/* Opted to */}
       <View>
         <Text className="text-green-800 p-2 text-xl">Opted to?</Text>
         <View className="bg-white mx-2 p-2 rounded-lg ">
           <View className="flex flex-row gap-5">
-            <TouchableOpacity onPress={() => setBowl(1)}>
+            <TouchableOpacity onPress={() => setOpted('Bat')}>
               <View className="flex flex-row gap-1">
                 <View className="flex flex-row items-center">
-                  <Text
-                    className={`h-4 w-4  border rounded-full  ${
-                      Bowl == 1 && 'bg-green-800'
-                    }`}></Text>
+                  <View
+                    className={`h-4 w-4 border rounded-full ${
+                      opted === 'Bat' ? 'bg-green-800' : ''
+                    }`}
+                  ></View>
                 </View>
                 <Text>Bat</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setBowl(2)}>
+            <TouchableOpacity onPress={() => setOpted('Bowl')}>
               <View className="flex flex-row gap-1">
                 <View className="flex flex-row items-center">
-                  <Text
-                    className={`h-4 w-4  border rounded-full  ${
-                      Bowl == 2 && 'bg-green-800'
-                    }`}></Text>
+                  <View
+                    className={`h-4 w-4 border rounded-full ${
+                      opted === 'Bowl' ? 'bg-green-800' : ''
+                    }`}
+                  ></View>
                 </View>
                 <Text>Bowl</Text>
               </View>
@@ -86,33 +114,37 @@ export default function NewMatch() {
         </View>
       </View>
 
-
       {/* Overs */}
       <View>
         <Text className="text-green-800 p-2 text-xl">Overs?</Text>
         <View className="bg-white mx-2 p-2 rounded-lg ">
-        <TextInput
-            keyboardType="text"
+          <TextInput
+            keyboardType="number-pad"
             placeholder="16"
-            className="border-b p-0 my-2"></TextInput>
+            value={overs}
+            onChangeText={setOvers}
+            className="border-b p-0 my-2"
+          />
         </View>
       </View>
 
-      {/* buttons */}
-  <View className='mx-5 my-2'>
-    <View className='flex flex-row  justify-between'>
-        <TouchableOpacity className=' p-2 rounded-lg px-5' onPress={()=>navigation.navigate('AdvanceSetting')}>
-            <Text className='text-xl '>Advance Setting</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('selectplayer')} className='bg-green-600 p-2 rounded-lg px-5 '>
-            <Text className='text-white text-lg'>Start Match</Text>
-        </TouchableOpacity>
-    </View>
-  </View>
-      
-    
-
-      
+      {/* Buttons */}
+      <View className="mx-5 my-2">
+        <View className="flex flex-row justify-between">
+          <TouchableOpacity
+            className="p-2 rounded-lg px-5"
+            onPress={() => navigation.navigate('AdvanceSetting')}
+          >
+            <Text className="text-xl">Advance Setting</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleStartMatch}
+            className="bg-green-600 p-2 rounded-lg px-5"
+          >
+            <Text className="text-white text-lg">Start Match</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }
