@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -26,6 +26,7 @@ export default function NewMatch() {
   };
 
   return (
+    <ScrollView>
     <View>
       {/* Teams */}
       <View>
@@ -146,5 +147,7 @@ export default function NewMatch() {
         </View>
       </View>
     </View>
+
+    </ScrollView>
   );
 }
