@@ -20,7 +20,6 @@ export default function NewMatch() {
   const [opted, setOpted] = useState('');
   const [overs, setOvers] = useState('');
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const handleStartMatch = () => {
     const matchData = {
@@ -37,8 +36,7 @@ export default function NewMatch() {
       matchData.opted &&
       matchData.overs
     ) {
-      dispatch(startMatch(matchData));
-      navigation.navigate('selectplayer');
+      navigation.navigate('selectplayer',{hostTeam,visitorTeam,toss,opted,overs,});
     } else {
       Alert.alert('Please Fill All Field');
     }

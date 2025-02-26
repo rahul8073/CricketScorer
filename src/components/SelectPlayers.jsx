@@ -1,16 +1,40 @@
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import socket from '../../socket';
 
 export default function SelectPlayers() {
-    const navigation = useNavigation();
-    const[striker,setStriker]=useState('')
-    const[nonstriker,setNonStriker]=useState('')
-    const[bowler,setBowler]=useState('')
+  const navigation = useNavigation();
+  const [striker, setStriker] = useState('')
+  const [nonstriker, setNonStriker] = useState('')
+  const [bowler, setBowler] = useState('')
+  const route = useRoute();
+  const { hostTeam,visitorTeam,toss,opted,overs} = route.params;
+  // console.log(hostTeam,"matchdata");
+  const startMatch = () => {
+    if (!hostTeam||!visitorTeam||!toss||!opted||!overs||!striker||!nonstriker||!bowler) {
+      console.error("Data is null or undefined");
+      return;
+    }
 
-   
+    const startMatchData = {
+      "hostTeam": hostTeam,
+      "visitorTeam":visitorTeam,
+      "wonBy":toss,
+      "optedTo":opted,
+      "overs": Number(overs),
+      "striker": striker,
+      "nonStriker": nonstriker,
+      "openingBowler": bowler
+    }
+
+
+    socket.emit('JoinRoom', startMatchData);
+    navigation.navigate('matchstart', { striker, nonstriker, bowler })
+  };
+
   return (
     <View>
       <View>
@@ -47,7 +71,7 @@ export default function SelectPlayers() {
               className="border-b p-0 "
               value={nonstriker}
               onChangeText={setNonStriker}
-              />
+            />
           </View>
         </View>
         {/*Opening bowler */}
@@ -60,12 +84,12 @@ export default function SelectPlayers() {
               className="border-b p-0"
               value={bowler}
               onChangeText={setBowler}
-              />
+            />
           </View>
         </View>
       </View>
       <View className=" mt-9">
-        <TouchableOpacity onPress={()=>navigation.navigate('matchstart',{striker,nonstriker,bowler})}  className="grid bg-green-800 py-3 mx-2 rounded-xl">
+        <TouchableOpacity onPress={startMatch} className="grid bg-green-800 py-3 mx-2 rounded-xl">
           <Text className="text-white text-center text-lg">Start Match</Text>
         </TouchableOpacity>
       </View>
